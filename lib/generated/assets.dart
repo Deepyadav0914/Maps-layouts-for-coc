@@ -3,12 +3,26 @@ class Assets {
   Assets._();
 
   static const String imagesArmy = 'assets/images/army.png';
-  static const String imagesBuildings = 'assets/images/buildings.png';
-  static const String imagesClans = 'assets/images/clans.png';
-  static const String imagesCocLogo = 'assets/images/cocLogo.png';
-  static const String imagesLayout = 'assets/images/layout.png';
-  static const String imagesPlayer = 'assets/images/player.png';
-  static const String imagesSplashBg = 'assets/images/splashBg.png';
+  static const String imagesArmys = 'assets/images/armys.png';
+  static const String imagesAttackStrategies = 'assets/images/attackStrategies.png';
+  static const String imagesBackbtn = 'assets/images/backbtn.png';
+  static const String imagesBuilding = 'assets/images/building.png';
+  static const String imagesDarkspells = 'assets/images/darkspells.png';
+  static const String imagesDarktroops = 'assets/images/darktroops.png';
+  static const String imagesDefenses = 'assets/images/defenses.png';
+  static const String imagesElixirspells = 'assets/images/elixirspells.png';
+  static const String imagesElixirtroops = 'assets/images/elixirtroops.png';
+  static const String imagesHeroes = 'assets/images/heroes.png';
+  static const String imagesMaps = 'assets/images/maps.png';
+  static const String imagesPets = 'assets/images/pets.png';
+  static const String imagesResources = 'assets/images/resources.png';
+  static const String imagesSetting = 'assets/images/setting.png';
+  static const String imagesSiegemachines = 'assets/images/siegemachines.png';
+  static const String imagesSplashbg = 'assets/images/splashbg.png';
+  static const String imagesStars = 'assets/images/stars.png';
+  static const String imagesSupertroops = 'assets/images/supertroops.png';
+  static const String imagesTopclan = 'assets/images/topclan.png';
+  static const String imagesTopplayer = 'assets/images/topplayer.png';
   static const String lottiesSplashLight = 'lotties/splash_light.json';
 
 }

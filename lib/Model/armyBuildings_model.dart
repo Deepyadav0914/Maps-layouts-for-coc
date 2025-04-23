@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-ArmyBuildingsModel armyBuildingsModelFromJson(String str) => ArmyBuildingsModel.fromJson(json.decode(str));
+ArmyBuildingsModel armyBuildingsModelFromJson(String str) =>
+    ArmyBuildingsModel.fromJson(json.decode(str));
 
-String armyBuildingsModelToJson(ArmyBuildingsModel data) => json.encode(data.toJson());
+String armyBuildingsModelToJson(ArmyBuildingsModel data) =>
+    json.encode(data.toJson());
 
 class ArmyBuildingsModel {
   List<Datum> data;
@@ -11,18 +13,19 @@ class ArmyBuildingsModel {
     required this.data,
   });
 
-  factory ArmyBuildingsModel.fromJson(Map<String, dynamic> json) => ArmyBuildingsModel(
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-  );
+  factory ArmyBuildingsModel.fromJson(Map<String, dynamic> json) =>
+      ArmyBuildingsModel(
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
 }
 
 class Datum {
   String name;
-  Cost cost;
+  String cost;
   String description;
   String mainimage;
   List<Detail> details;
@@ -36,31 +39,22 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    name: json["name"],
-    cost: costValues.map[json["cost"]]!,
-    description: json["description"],
-    mainimage: json["mainimage"],
-    details: List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
-  );
+        name: json["name"],
+        cost: json["cost"],
+        description: json["description"],
+        mainimage: json["mainimage"],
+        details:
+            List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "cost": costValues.reverse[cost],
-    "description": description,
-    "mainimage": mainimage,
-    "details": List<dynamic>.from(details.map((x) => x.toJson())),
-  };
+        "name": name,
+        "cost": cost,
+        "description": description,
+        "mainimage": mainimage,
+        "details": List<dynamic>.from(details.map((x) => x.toJson())),
+      };
 }
-
-enum Cost {
-  DARK_ELIXIR,
-  PURPLE_ELIXIR
-}
-
-final costValues = EnumValues({
-  "Dark Elixir": Cost.DARK_ELIXIR,
-  "Purple Elixir": Cost.PURPLE_ELIXIR
-});
 
 class Detail {
   int level;
@@ -76,13 +70,13 @@ class Detail {
   dynamic siegeMachineCapacity;
   dynamic townHallLevelRequired;
   String townHallImage;
-  String unlockedUnitImage;
-  String unlockedSpellImage;
+  String? unlockedUnitImage;
+  String? unlockedSpellImage;
 
   Detail({
     required this.level,
     required this.image,
-    required this.troopCapacity,
+    this.troopCapacity,
     required this.unlockedUnit,
     required this.hitpoints,
     required this.spellSUnlocked,
@@ -93,63 +87,43 @@ class Detail {
     required this.siegeMachineCapacity,
     required this.townHallLevelRequired,
     required this.townHallImage,
-    required this.unlockedUnitImage,
-    required this.unlockedSpellImage,
+    this.unlockedUnitImage,
+    this.unlockedSpellImage,
   });
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
-    level: json["Level"],
-    image: json["image"],
-    troopCapacity: json["Troop Capacity"],
-    unlockedUnit: json["Unlocked Unit"],
-    hitpoints: json["Hitpoints"],
-    spellSUnlocked: json["Spell(s) Unlocked"],
-    spellStorageCapacity: json["Spell Storage Capacity"],
-    buildCost: json["Build Cost"],
-    buildTime: json["Build Time"],
-    experienceGained: json["Experience Gained"],
-    siegeMachineCapacity: json["Siege Machine Capacity"],
-    townHallLevelRequired: json["Town Hall Level Required"],
-    townHallImage: json["Town Hall Image"],
-    unlockedUnitImage: json["Unlocked Unit Image"],
-    unlockedSpellImage: json["Unlocked Spell Image"],
-  );
+        level: json["Level"],
+        image: json["image"],
+        troopCapacity: json["Troop Capacity"],
+        unlockedUnit: json["Unlocked Unit"],
+        hitpoints: json["Hitpoints"],
+        spellSUnlocked: json["Spell(s) Unlocked"],
+        spellStorageCapacity: json["Spell Storage Capacity"],
+        buildCost: json["Build Cost"],
+        buildTime: json["Build Time"],
+        experienceGained: json["Experience Gained"],
+        siegeMachineCapacity: json["Siege Machine Capacity"],
+        townHallLevelRequired: json["Town Hall Level Required"],
+        townHallImage: json["Town Hall Image"],
+        unlockedUnitImage: json["Unlocked Unit Image"],
+        unlockedSpellImage: json["Unlocked Spell Image"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "Level": level,
-    "image": image,
-    "Troop Capacity": troopCapacity,
-    "Unlocked Unit": unlockedUnit,
-    "Hitpoints": hitpoints,
-    "Spell(s) Unlocked": spellSUnlocked,
-    "Spell Storage Capacity": spellStorageCapacity,
-    "Build Cost": buildCost,
-    "Build Time": buildTime,
-    "Experience Gained": experienceGained,
-    "Siege Machine Capacity": siegeMachineCapacity,
-    "Town Hall Level Required": townHallLevelRequired,
-    "Town Hall Image": townHallImage,
-    "Unlocked Unit Image": unlockedUnitImage,
-    "Unlocked Spell Image": unlockedSpellImage,
-  };
-}
-
-enum Capacity {
-  N_A
-}
-
-final capacityValues = EnumValues({
-  "N/A": Capacity.N_A
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
+        "Level": level,
+        "image": image,
+        "Troop Capacity": troopCapacity,
+        "Unlocked Unit": unlockedUnit,
+        "Hitpoints": hitpoints,
+        "Spell(s) Unlocked": spellSUnlocked,
+        "Spell Storage Capacity": spellStorageCapacity,
+        "Build Cost": buildCost,
+        "Build Time": buildTime,
+        "Experience Gained": experienceGained,
+        "Siege Machine Capacity": siegeMachineCapacity,
+        "Town Hall Level Required": townHallLevelRequired,
+        "Town Hall Image": townHallImage,
+        "Unlocked Unit Image": unlockedUnitImage,
+        "Unlocked Spell Image": unlockedSpellImage,
+      };
 }

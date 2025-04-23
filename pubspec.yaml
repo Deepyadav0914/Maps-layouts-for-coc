@@ -42,10 +42,15 @@ dependencies:
   intl: ^0.20.2
   cached_network_image: ^3.4.1
   lottie: ^3.3.1
-  flutter_svg: ^2.0.17
   flutter_staggered_grid_view: ^0.7.0
   tab_container: ^3.5.3
   animation_list: ^3.1.0
+  appinio_swiper: ^2.1.1
+  youtube_player_iframe: ^5.2.1
+  card_swiper: ^3.0.1
+  flutter_inappwebview: ^6.1.1+1
+  url_launcher: ^6.3.1
+  share_plus: ^11.0.0
 
 
 dev_dependencies:
@@ -74,7 +79,6 @@ flutter:
   assets:
     - assets/images/
     - lotties/
-    - svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final attackStrategiesModel = attackStrategiesModelFromJson(jsonString);
+
 import 'dart:convert';
 
 List<AttackStrategiesModel> attackStrategiesModelFromJson(String str) => List<AttackStrategiesModel>.from(json.decode(str).map((x) => AttackStrategiesModel.fromJson(x)));

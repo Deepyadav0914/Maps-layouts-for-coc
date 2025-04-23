@@ -54,9 +54,9 @@ class Datum {
 
 class Detail {
   int level;
-  int damagePerSecond;
+  int? damagePerSecond;
   dynamic damagePerHit;
-  String damageVsWalls;
+  String? damageVsWalls;
   String hitpoints;
   String researchCost;
   String researchTime;
@@ -64,29 +64,29 @@ class Detail {
   dynamic laboratoryLevelRequired;
   dynamic damagePerAttack;
   dynamic damageWhenDestroyed;
-  int pEKKASpawned;
-  int wizardsSpawned;
-  String pointBlankDamage;
-  String lifetime;
-  int flameMaximumDps;
+  int? pEKKASpawned;
+  int? wizardsSpawned;
+  String? pointBlankDamage;
+  String? lifetime;
+  int? flameMaximumDps;
 
   Detail({
     required this.level,
-    required this.damagePerSecond,
-    required this.damagePerHit,
-    required this.damageVsWalls,
+    this.damagePerSecond,
+    this.damagePerHit,
+    this.damageVsWalls,
     required this.hitpoints,
     required this.researchCost,
     required this.researchTime,
     required this.image,
     required this.laboratoryLevelRequired,
-    required this.damagePerAttack,
-    required this.damageWhenDestroyed,
-    required this.pEKKASpawned,
-    required this.wizardsSpawned,
-    required this.pointBlankDamage,
-    required this.lifetime,
-    required this.flameMaximumDps,
+    this.damagePerAttack,
+    this.damageWhenDestroyed,
+    this.pEKKASpawned,
+    this.wizardsSpawned,
+    this.pointBlankDamage,
+    this.lifetime,
+    this.flameMaximumDps,
   });
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(

@@ -1,5 +1,4 @@
-import 'package:coc_app/Views/Army/army_screen.dart';
-import 'package:coc_app/Views/Map/maps_screen.dart';
+import 'package:coc_app/Routes/name_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -14,41 +13,36 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Assets.imagesSplashBg),
-            fit: BoxFit.cover,
-          ),
-        ),
+        decoration: BoxDecoration(color: Colors.black),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Clash of Clans',
-                      style: TextStyle(
-                        fontSize: 20.r,
-                        fontFamily: 'Supercell',
-                        color: Colors.white,
-                      ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Clash of Clans',
+                    style: TextStyle(
+                      fontSize: 18.r,
+                      fontFamily: 'Supercell',
+                      color: Colors.white,
                     ),
-                  ],
-                ),
-                10.h.verticalSpace,
-                Expanded(
-                  child: SizedBox(
-                    child: SingleChildScrollView(
+                  ),
+                ],
+              ),
+              10.h.verticalSpace,
+              Expanded(
+                child: SizedBox(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.all(10.r),
                       child: Column(
                         children: [
                           MasonryGridView.count(
                             itemCount: ItemList.itemList.length,
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 14.r,
-                            crossAxisSpacing: 18.r,
+                            crossAxisCount: 1,
+                            mainAxisSpacing: 10.r,
+                            crossAxisSpacing: 10.r,
                             shrinkWrap: true,
                             primary: false,
                             itemBuilder: (context, index) {
@@ -57,41 +51,58 @@ class HomeScreen extends StatelessWidget {
                                 child: GestureDetector(
                                   onTap: () {
                                     if (index == 0) {
-                                      Get.to(MapsScreen());
+                                      Get.toNamed(AppName.mapScreen);
                                     } else if (index == 1) {
+                                      Get.toNamed(AppName.attackStrategies);
                                     } else if (index == 2) {
-
-                                      Get.to(ArmyScreen());
+                                      Get.toNamed(AppName.buildingsScreen);
                                     } else if (index == 3) {
+                                      Get.toNamed(AppName.armyScreen);
                                     } else if (index == 4) {
+                                      Get.toNamed(AppName.playerScreen);
                                     } else if (index == 5) {
+                                      Get.toNamed(AppName.clanScreen);
                                     } else if (index == 6) {
-                                    } else if (index == 7) {}
+                                      Get.toNamed(AppName.settingScreen);
+                                    }
                                   },
                                   child: Container(
+                                    height: 196.r,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16.r),
-                                      color: Colors.black.withOpacity(0.3),
-                                    ),
+                                        borderRadius:
+                                            BorderRadius.circular(16.r),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.blueGrey.shade500,
+                                            Colors.blueGrey.shade300,
+                                            Colors.blueGrey.shade900
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                        ),
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                ItemList.itemList[index].image),
+                                            fit: BoxFit.cover)),
                                     child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        10.h.verticalSpace,
-                                        Image.asset(
-                                          ItemList.itemList[index].image,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        5.h.verticalSpace,
-                                        Text(
-                                          ItemList.itemList[index].name,
-                                          style: TextStyle(
-                                            fontSize: 15.r,
-                                            fontFamily: 'Supercell',
-                                            color: Colors.white,
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            ItemList.itemList[index].name,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 14.r,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontFamily: 'Supercell',
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                        ),
-                                        10.h.verticalSpace,
+                                        )
                                       ],
                                     ),
                                   ),
@@ -104,8 +115,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -122,11 +133,12 @@ class BuildGrid {
 
 class ItemList {
   static final itemList = [
-    BuildGrid(name: 'Layout', image: Assets.imagesLayout),
-    BuildGrid(name: 'Buildings', image: Assets.imagesBuildings),
-    BuildGrid(name: 'Army', image: Assets.imagesArmy),
-    BuildGrid(name: 'Top Player', image: Assets.imagesPlayer),
-    BuildGrid(name: 'Top Clans', image: Assets.imagesClans),
-    BuildGrid(name: 'Setting', image: Assets.imagesPlayer),
+    BuildGrid(name: 'Maps', image: Assets.imagesMaps),
+    BuildGrid(name: 'Attack Strategies', image: Assets.imagesAttackStrategies),
+    BuildGrid(name: 'Buildings', image: Assets.imagesBuilding),
+    BuildGrid(name: 'Army', image: Assets.imagesArmys),
+    BuildGrid(name: 'Top Player', image: Assets.imagesTopplayer),
+    BuildGrid(name: 'Top Clans', image: Assets.imagesTopclan),
+    BuildGrid(name: 'Setting', image: Assets.imagesSetting),
   ];
 }

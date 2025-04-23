@@ -51,26 +51,26 @@ class Datum {
 class Detail {
   int level;
   String image;
-  int damagePerSecond;
-  double damagePerAttack;
+  int? damagePerSecond;
+  double? damagePerAttack;
   int hitpoints;
   String researchCost;
   String researchTime;
   dynamic laboratoryLevelRequired;
-  int healingPerSecond;
-  int healingPerPulse;
+  int? healingPerSecond;
+  int? healingPerPulse;
 
   Detail({
     required this.level,
     required this.image,
-    required this.damagePerSecond,
-    required this.damagePerAttack,
+    this.damagePerSecond,
+    this.damagePerAttack,
     required this.hitpoints,
     required this.researchCost,
     required this.researchTime,
     required this.laboratoryLevelRequired,
-    required this.healingPerSecond,
-    required this.healingPerPulse,
+    this.healingPerSecond,
+    this.healingPerPulse,
   });
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
@@ -98,24 +98,4 @@ class Detail {
     "Healing per Second": healingPerSecond,
     "Healing per Pulse": healingPerPulse,
   };
-}
-
-enum LaboratoryLevelRequiredEnum {
-  N_A
-}
-
-final laboratoryLevelRequiredEnumValues = EnumValues({
-  "N/A": LaboratoryLevelRequiredEnum.N_A
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../Apis/apis_calling.dart';
 import '../../../Model/maps_model.dart';
 
 class MapsController extends GetxController {
-  MapsModel? mapsModel;
+  var mapsModel = Rxn<MapsModel>();
   RxBool isLoading = true.obs;
   // String VarelaRound = 'VarelaRound';
 
@@ -17,8 +19,8 @@ class MapsController extends GetxController {
   Future<void> fetchMapsData() async {
     try {
       isLoading(true);
-      mapsModel = await ApiCall().mapsData();
-      print("mapmodal data === ${mapsModel?.data[0].townhall.image}");
+      final result = await ApiCall().mapsData();
+      mapsModel.value = result;
     } catch (e) {
       Get.snackbar("Error", "Failed to load data. Please try again.");
     } finally {
@@ -32,60 +34,131 @@ class MapsDetailController extends GetxController
   RxList<MapListData> mapData = <MapListData>[].obs;
   RxInt index = 0.obs;
   RxBool isLoading = true.obs;
-  late TabController tabController = TabController(vsync: this, length: 3);
-  TextTheme? textTheme;
-  final Map<String, List> progressData = {};
-  final Map<String, List> trophyData = {};
-  final Map<String, List> warData = {};
+  late TabController tabController;
+
+  final Map<String, List<Detail>> progressData = {};
+  final Map<String, List<Detail>> trophyData = {};
+  final Map<String, List<Detail>> warData = {};
 
   @override
   void onInit() {
     super.onInit();
+
+    tabController = TabController(vsync: this, length: 3);
+
     final arguments = Get.arguments['item'];
-    print('${arguments.runtimeType}');
     if (arguments is MapListData) {
       mapData.value = [arguments];
-      print("maps data show == ${mapData.value[0].townhall.image}");
+      debugPrint("Maps data loaded: ${mapData.first.townhall.image}");
     }
+
+    _groupDetailsByCategory();
+
     isLoading.value = false;
 
-    final data = mapData[0];
-    for (var i = 0; i < data.townhall.details.length; i++) {
-      final detail = data.townhall.details[i];
+    debugPrint('PROGRESS count: ${progressData.length}');
+    debugPrint('TROPHY count: ${trophyData.length}');
+    debugPrint('WAR count: ${warData.length}');
+  }
 
-      for (var category in detail.catagory) {
-        if (category.name == 'PROGRESS') {
-          final mapdata = detail.image; // Key for grouped data
+  void _groupDetailsByCategory() {
+    if (mapData.isEmpty) return;
 
-          progressData.putIfAbsent(mapdata, () => []).add(detail);
-          break; // Stop checking more categories after finding 'TROPHY'
+    final details = mapData.first.townhall.details;
+
+    for (final detail in details) {
+      bool isProgress = false;
+      bool isTrophy = false;
+      bool isWar = false;
+
+      for (final category in detail.catagory) {
+        switch (category.name) {
+          case 'PROGRESS':
+            isProgress = true;
+            break;
+          case 'TROPHY':
+            isTrophy = true;
+            break;
+          case 'WAR':
+            isWar = true;
+            break;
         }
       }
-      for (var category in detail.catagory) {
-        if (category.name == 'TROPHY') {
-          final mapdata = detail.image; // Key for grouped data
 
-          trophyData.putIfAbsent(mapdata, () => []).add(detail);
-          break; // Stop checking more categories after finding 'TROPHY'
-        }
+      final key = detail.image;
+
+      if (isProgress) {
+        progressData.putIfAbsent(key, () => []).add(detail);
       }
-      for (var category in detail.catagory) {
-        if (category.name == 'WAR') {
-          final mapdata = detail.image; // Key for grouped data
-
-          warData.putIfAbsent(mapdata, () => []).add(detail);
-          break; // Stop checking more categories after finding 'TROPHY'
-        }
+      if (isTrophy) {
+        trophyData.putIfAbsent(key, () => []).add(detail);
+      }
+      if (isWar) {
+        warData.putIfAbsent(key, () => []).add(detail);
       }
     }
-
-    print('Msg============${warData.length}');
   }
 
   @override
   void onClose() {
-    // Fix: Use onClose instead of dispose
     tabController.dispose();
     super.onClose();
+  }
+
+  Future<void> launchURL(String url, BuildContext context) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      print(url);
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Could not launch $url'),
+        ),
+      );
+    }
+  }
+
+  Future<void> onShareWithResult(BuildContext context, GlobalKey key) async {
+    final RenderBox? box = key.currentContext?.findRenderObject() as RenderBox?;
+
+    if (mapData.isEmpty || mapData[0].townhall.details.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No shareable content found.')),
+      );
+      return;
+    }
+
+    final cocUrl = mapData[0].townhall.details[0].cocUrl;
+
+    if (cocUrl.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('URL is empty, nothing to share.')),
+      );
+      return;
+    }
+
+    final Uri? uri = Uri.tryParse(cocUrl);
+
+    try {
+      final origin = box != null
+          ? box.localToGlobal(Offset.zero) & box.size
+          : Rect.fromLTWH(0, 0, 100, 100); // fallback
+
+      if (uri != null && uri.hasScheme) {
+        await Share.shareUri(
+          uri,
+          sharePositionOrigin: origin,
+        );
+      } else {
+        await Share.share(
+          cocUrl,
+          sharePositionOrigin: origin,
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error sharing content: $e')),
+      );
+    }
   }
 }

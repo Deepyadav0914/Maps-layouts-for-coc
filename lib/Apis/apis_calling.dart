@@ -11,6 +11,7 @@ import '../Model/elixirTroops_model.dart';
 import '../Model/heroes_model.dart';
 import '../Model/maps_model.dart';
 import '../Model/pets_model.dart';
+import '../Model/player_model.dart';
 import '../Model/resources_model.dart';
 import '../Model/siegeMachines_model.dart';
 import '../Model/superTroops_model.dart';
@@ -22,12 +23,16 @@ class ApiCall {
           'https://miracocopepsi.com/admin/mayur/coc/pradip/ios/coc_deep/army.json');
 
       if (response.statusCode == 200) {
-        // print(response.data);
+        print(response.data);
         return armyModelFromJson(json.encode(response.data));
       } else {
+        print(response.data);
+
         throw Exception('Failed to load data');
       }
     } catch (e) {
+      print(e);
+
       throw Exception('Error: $e');
     }
   }
@@ -159,6 +164,7 @@ class ApiCall {
           'https://miracocopepsi.com/admin/mayur/coc/pradip/ios/coc_deep/coc_map.json');
 
       if (response.statusCode == 200) {
+        print(response.data);
         return mapsModelFromJson(json.encode(response.data));
       } else {
         throw Exception('Failed to load data');
@@ -220,6 +226,56 @@ class ApiCall {
 
       if (response.statusCode == 200) {
         return superTroopsModelFromJson(json.encode(response.data));
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<PlayerModel> playerData(playerId) async {
+    try {
+      var response = await Dio().post(
+        'https://supercellapi.miracocopepsi.com/api/makeCall',
+        queryParameters: {
+          "type": "get",
+          "url": "https://api.clashofclans.com/v1/players/%23$playerId"
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print(response.data);
+        // Ensure the response data is a Map, not a String
+        if (response.data is Map<String, dynamic>) {
+          return PlayerModel.fromJson(response.data);
+          // print("response.data");
+        } else if (response.data is String) {
+          // Manually decode if it's a raw JSON string
+          return PlayerModel.fromJson(jsonDecode(response.data));
+        } else {
+          throw Exception("Unexpected data type: ${response.data.runtimeType}");
+        }
+      } else {
+        throw Exception('Failed to load player data');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future clanData(clanId) async {
+    try {
+      var response = await Dio().post(
+        'https://supercellapi.miracocopepsi.com/api/makeCall',
+        queryParameters: {
+          "type": "get",
+          "url": "https://api.clashofclans.com/v1/players/%23$clanId"
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print(response.data);
       } else {
         throw Exception('Failed to load data');
       }

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final armyModel = armyModelFromJson(jsonString);
-
 import 'dart:convert';
 
 ArmyModel armyModelFromJson(String str) => ArmyModel.fromJson(json.decode(str));
@@ -9,22 +5,22 @@ ArmyModel armyModelFromJson(String str) => ArmyModel.fromJson(json.decode(str));
 String armyModelToJson(ArmyModel data) => json.encode(data.toJson());
 
 class ArmyModel {
-  List<Datum> data;
+  List<Army> data;
 
   ArmyModel({
     required this.data,
   });
 
   factory ArmyModel.fromJson(Map<String, dynamic> json) => ArmyModel(
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-  );
+        data: List<Army>.from(json["data"].map((x) => Army.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
 }
 
-class Datum {
+class Army {
   String thLevel;
   String image;
   String trophyLvl;
@@ -32,7 +28,7 @@ class Datum {
   String execution;
   List<Detail> details;
 
-  Datum({
+  Army({
     required this.thLevel,
     required this.image,
     required this.trophyLvl,
@@ -41,23 +37,24 @@ class Datum {
     required this.details,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    thLevel: json["thLevel"],
-    image: json["image"],
-    trophyLvl: json["TrophyLvl"],
-    army: json["army"],
-    execution: json["execution"],
-    details: List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
-  );
+  factory Army.fromJson(Map<String, dynamic> json) => Army(
+        thLevel: json["thLevel"],
+        image: json["image"],
+        trophyLvl: json["TrophyLvl"],
+        army: json["army"],
+        execution: json["execution"],
+        details:
+            List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "thLevel": thLevel,
-    "image": image,
-    "TrophyLvl": trophyLvl,
-    "army": army,
-    "execution": execution,
-    "details": List<dynamic>.from(details.map((x) => x.toJson())),
-  };
+        "thLevel": thLevel,
+        "image": image,
+        "TrophyLvl": trophyLvl,
+        "army": army,
+        "execution": execution,
+        "details": List<dynamic>.from(details.map((x) => x.toJson())),
+      };
 }
 
 class Detail {
@@ -76,18 +73,18 @@ class Detail {
   });
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
-    name: json["name"],
-    image: json["image"],
-    quantity: json["quantity"],
-    minLvl: json["minLvl"],
-    housing: json["housing"],
-  );
+        name: json["name"],
+        image: json["image"],
+        quantity: json["quantity"],
+        minLvl: json["minLvl"],
+        housing: json["housing"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "image": image,
-    "quantity": quantity,
-    "minLvl": minLvl,
-    "housing": housing,
-  };
+        "name": name,
+        "image": image,
+        "quantity": quantity,
+        "minLvl": minLvl,
+        "housing": housing,
+      };
 }

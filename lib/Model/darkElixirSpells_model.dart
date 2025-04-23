@@ -51,34 +51,34 @@ class Datum {
 class Detail {
   int level;
   dynamic maxDamagePerSecond;
-  String speedDecrease;
-  String attackRateDecrease;
+  String? speedDecrease;
+  String? attackRateDecrease;
   String researchCost;
   String researchTime;
-  String damage;
-  String radius;
+  String? damage;
+  String? radius;
   dynamic speedIncrease;
-  String spellDuration;
+  String? spellDuration;
   dynamic skeletonsGenerated;
   dynamic batsGenerated;
   dynamic laboratoryLevelRequired;
-  String duration;
+  String? duration;
 
   Detail({
     required this.level,
-    required this.maxDamagePerSecond,
-    required this.speedDecrease,
-    required this.attackRateDecrease,
+    this.maxDamagePerSecond,
+    this.speedDecrease,
+    this.attackRateDecrease,
     required this.researchCost,
     required this.researchTime,
-    required this.damage,
-    required this.radius,
-    required this.speedIncrease,
-    required this.spellDuration,
-    required this.skeletonsGenerated,
-    required this.batsGenerated,
+    this.damage,
+    this.radius,
+    this.speedIncrease,
+    this.spellDuration,
+    this.skeletonsGenerated,
+    this.batsGenerated,
     required this.laboratoryLevelRequired,
-    required this.duration,
+    this.duration,
   });
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
@@ -114,24 +114,4 @@ class Detail {
     "Laboratory Level Required": laboratoryLevelRequired,
     "Duration": duration,
   };
-}
-
-enum BatsGeneratedEnum {
-  N_A
-}
-
-final batsGeneratedEnumValues = EnumValues({
-  "N/A": BatsGeneratedEnum.N_A
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

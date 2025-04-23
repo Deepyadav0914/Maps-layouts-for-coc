@@ -22,7 +22,7 @@ class DefensesModel {
 
 class Datum {
   String name;
-  Cost cost;
+  String cost;
   String description;
   String mainimage;
   List<Detail> details;
@@ -37,7 +37,7 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     name: json["name"],
-    cost: costValues.map[json["cost"]]!,
+    cost: json["cost"],
     description: json["description"],
     mainimage: json["mainimage"],
     details: List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
@@ -45,22 +45,13 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
     "name": name,
-    "cost": costValues.reverse[cost],
+    "cost": cost,
     "description": description,
     "mainimage": mainimage,
     "details": List<dynamic>.from(details.map((x) => x.toJson())),
   };
 }
 
-enum Cost {
-  COIN,
-  DARK_ELIXIR
-}
-
-final costValues = EnumValues({
-  "Coin": Cost.COIN,
-  "Dark Elixir": Cost.DARK_ELIXIR
-});
 
 class Detail {
   int level;
@@ -114,14 +105,3 @@ class Detail {
   };
 }
 
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
-}

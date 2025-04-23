@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final mapsModel = mapsModelFromJson(jsonString);
-
 import 'dart:convert';
 
 MapsModel mapsModelFromJson(String str) => MapsModel.fromJson(json.decode(str));
@@ -16,12 +12,13 @@ class MapsModel {
   });
 
   factory MapsModel.fromJson(Map<String, dynamic> json) => MapsModel(
-    data: List<MapListData>.from(json["data"].map((x) => MapListData.fromJson(x))),
-  );
+        data: List<MapListData>.from(
+            json["data"].map((x) => MapListData.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
 }
 
 class MapListData {
@@ -32,12 +29,12 @@ class MapListData {
   });
 
   factory MapListData.fromJson(Map<String, dynamic> json) => MapListData(
-    townhall: Townhall.fromJson(json["townhall"]),
-  );
+        townhall: Townhall.fromJson(json["townhall"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "townhall": townhall.toJson(),
-  };
+        "townhall": townhall.toJson(),
+      };
 }
 
 class Townhall {
@@ -54,18 +51,19 @@ class Townhall {
   });
 
   factory Townhall.fromJson(Map<String, dynamic> json) => Townhall(
-    thname: json["thname"],
-    color: List<String>.from(json["color"].map((x) => x)),
-    image: json["image"],
-    details: List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
-  );
+        thname: json["thname"],
+        color: List<String>.from(json["color"].map((x) => x)),
+        image: json["image"],
+        details:
+            List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "thname": thname,
-    "color": List<dynamic>.from(color.map((x) => x)),
-    "image": image,
-    "details": List<dynamic>.from(details.map((x) => x.toJson())),
-  };
+        "thname": thname,
+        "color": List<dynamic>.from(color.map((x) => x)),
+        "image": image,
+        "details": List<dynamic>.from(details.map((x) => x.toJson())),
+      };
 }
 
 class Detail {
@@ -80,16 +78,18 @@ class Detail {
   });
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
-    image: json["image"],
-    cocUrl: json["coc_url"],
-    catagory: List<Catagory>.from(json["Catagory"].map((x) => catagoryValues.map[x]!)),
-  );
+        image: json["image"],
+        cocUrl: json["coc_url"],
+        catagory: List<Catagory>.from(
+            json["Catagory"].map((x) => catagoryValues.map[x]!)),
+      );
 
   Map<String, dynamic> toJson() => {
-    "image": image,
-    "coc_url": cocUrl,
-    "Catagory": List<dynamic>.from(catagory.map((x) => catagoryValues.reverse[x])),
-  };
+        "image": image,
+        "coc_url": cocUrl,
+        "Catagory":
+            List<dynamic>.from(catagory.map((x) => catagoryValues.reverse[x])),
+      };
 }
 
 enum Catagory {

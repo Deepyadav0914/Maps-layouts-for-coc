@@ -60,41 +60,41 @@ class Detail {
   int level;
   String image;
   dynamic capacity;
-  String productionRate;
+  String? productionRate;
   dynamic hitpoints;
   dynamic boostCost;
-  String timeToFill;
+  String? timeToFill;
   dynamic buildCost;
   String buildTime;
   dynamic experienceGained;
-  String catchUpPoint;
+  String? catchUpPoint;
   dynamic townHallLevelRequired;
   String townHallImage;
-  String storageCapacity;
-  int troopCapacity;
+  String? storageCapacity;
+  int? troopCapacity;
   dynamic spellCapacity;
   dynamic siegeMachineCapacity;
-  int laboratoryLevelCap;
+  int? laboratoryLevelCap;
 
   Detail({
     required this.level,
     required this.image,
-    required this.capacity,
-    required this.productionRate,
+    this.capacity,
+    this.productionRate,
     required this.hitpoints,
-    required this.boostCost,
-    required this.timeToFill,
+    this.boostCost,
+    this.timeToFill,
     required this.buildCost,
     required this.buildTime,
     required this.experienceGained,
-    required this.catchUpPoint,
+    this.catchUpPoint,
     required this.townHallLevelRequired,
     required this.townHallImage,
-    required this.storageCapacity,
-    required this.troopCapacity,
-    required this.spellCapacity,
-    required this.siegeMachineCapacity,
-    required this.laboratoryLevelCap,
+    this.storageCapacity,
+    this.troopCapacity,
+    this.spellCapacity,
+    this.siegeMachineCapacity,
+    this.laboratoryLevelCap,
   });
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
@@ -140,22 +140,3 @@ class Detail {
   };
 }
 
-enum BoostCostEnum {
-  N_A
-}
-
-final boostCostEnumValues = EnumValues({
-  "N/A": BoostCostEnum.N_A
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
-}
